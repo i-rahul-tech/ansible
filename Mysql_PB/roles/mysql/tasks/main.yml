@@ -1,0 +1,34 @@
+---
+- name: Install MySQL
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - python-mysqldb
+  - mysql-server
+
+- name: Start MySQL Service
+  service:
+    name: mysql
+    state: started
+
+- name: Change MySQL Info
+  mysql_user:
+    login_user: root
+    login_password: "{{ my_root_password }}"
+    name: root
+    password: "{{ my_root_password }}"
+    host: localhost
+    state: present
+
+- name: Add User Rahul
+  mysql_user:
+    name: rahul
+    login_user: root
+    login_password: "{{ my_root_password }}"
+    password: "{{ rahul_pwd }}"
+    host: localhost
+    state: present
+    priv: "*.*:SELECT"
+     
+
